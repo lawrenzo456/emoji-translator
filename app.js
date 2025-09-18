@@ -60,7 +60,7 @@ function translate(sentence) {
   for (let i = 0; i < sentArr.length; i++) {
     // console.log(sentArr[i][sentArr[i].length-1] === 's' || sentArr[i].slice(sentArr[i].length - 2, 0) === 'es')
 
-  // console.log(sentArr);
+    // console.log(sentArr);
     if (
       emojiArr.includes(sentArr[i].slice(0, -2)) || //catch es
       // emojiArr.includes(sentArr[i].slice(0,sentArr[i].length-2)) ||
@@ -70,15 +70,17 @@ function translate(sentence) {
       // || emojiArr.includes(sentArr[i].slice(-1))  //just 's'
       // ||  emojiArr.includes(sentArr[i].slice(-2))//es
       //catch es
-    ) 
-    {
+    ) {
       //fires / fire
       // console.log('sent arr ' + (sentArr[i][sentArr[i].length-1] === 's'))
       // console.log(`${emojiDict[sentArr[i].slice(0, sentArr[i].length-1)]}s`);
       //sentArr[i].length-2 returns a num
       // console.log((sentArr[i].slice(0,-1)))
-       if (sentArr[i].slice(-2) === 'es' 
-       && emojiArr.includes(sentArr[i].slice(0,-2)) ) { //possibly an and case to catch "fire"s, emojiArr.includes //if the word ends in e, && !emojiArr.includes(sentArr[i].length-1)
+      if (
+        sentArr[i].slice(-2) === 'es' &&
+        emojiArr.includes(sentArr[i].slice(0, -2))
+      ) {
+        //possibly an and case to catch "fire"s, emojiArr.includes //if the word ends in e, && !emojiArr.includes(sentArr[i].length-1)
         //
         // console.log('catch es');
         // console.log(sentArr)
@@ -86,9 +88,7 @@ function translate(sentence) {
 
         sentArr[i] = `${emojiDict[sentArr[i].slice(0, -2)]}es`;
         // console.log(sentArr)
-
-      }
-      else if (sentArr[i][sentArr[i].length - 1] === 's') {
+      } else if (sentArr[i][sentArr[i].length - 1] === 's') {
         // console.log('sent arr ' + (sentArr[i][sentArr[i].length-1] === 's'))
         sentArr[i] = `${
           emojiDict[sentArr[i].slice(0, sentArr[i].length - 1)]
@@ -97,12 +97,12 @@ function translate(sentence) {
 
         // sentArr[i] = `${emojiDict[sentArr[i]]}s`; //doesn't work, undefined
       }
-    //   if (sentArr[i] === emojiDict[sentArr[i]]){
-    //     sentArr[i] = emojiDict[sentArr[i]]
-    // }
-    else {
-        sentArr[i] = emojiDict[sentArr[i]]
-    }
+      //   if (sentArr[i] === emojiDict[sentArr[i]]){
+      //     sentArr[i] = emojiDict[sentArr[i]]
+      // }
+      else {
+        sentArr[i] = emojiDict[sentArr[i]];
+      }
     }
     //test case to check why the else if isn't working
     // if (sentArr[i].slice(-2) === 'es') {
