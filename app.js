@@ -13,6 +13,7 @@ const emojiDict = {
   egg: '🥚',
   brain: '🧠',
 };
+//keep adding edge cases to make it more specific and fine tuned ; since the emoji dict, check how they're in common and how they're different
 
 // TODO: Write a translate function
 // - Input: (sentence, dict)
@@ -26,26 +27,25 @@ function translate(sentence) {
   // console.log(sentence);
 
   let emojiSentence = sentence.trim().toLowerCase();
-
   // console.log(emojiSentence);
 
   const sentArr = emojiSentence.split(' ');
   console.log(sentArr);
-  console.log(emojiArr);
+  // console.log(emojiArr);
   // console.log(sentArr[0][sentArr[0].length-1)
   // console.log(emojiArr.includes(sentArr[0][sentArr[0].length-1])); //sentArr of
   // console.log(sentArr[i][sentArr[i].length-1] === 's' || sentArr[i].slice(sentArr[i].length - 2, 0) === 'es')
   //testing whether we get es -
   // console.log(sentArr[8][sentArr[8].length-2]) //simple lookup, we only get e
-  console.log(sentArr[8].slice(-2)); //simple lookup // we get es
-  console.log(sentArr[8].slice(0, -2)); //simple lookup // we get fish
+  // console.log(sentArr[8].slice(-2)); //simple lookup // we get es
+  // console.log(sentArr[8].slice(0, -2)); //simple lookup // we get fish
   // emojiArr.includes(sentArr[8].slice(0,-2)) //returns true for fish
-  if (emojiArr.includes(sentArr[8].slice(0, -2))) {
-    console.log(emojiDict['fish']);
-    console.log(emojiDict[sentArr[8].slice(0, -2)]);
-    console.log(`${emojiDict[sentArr[8].slice(0, -2)]}es`);
-    console.log(sentArr[8].slice(-2) === 'es');
-  }
+  // if (emojiArr.includes(sentArr[8].slice(0, -2))) {
+  //   console.log(emojiDict['fish']);
+  //   console.log(emojiDict[sentArr[8].slice(0, -2)]);
+  //   console.log(`${emojiDict[sentArr[8].slice(0, -2)]}es`);
+  //   console.log(sentArr[8].slice(-2) === 'es');
+  // }
 
   // if (emojiArr.includes(sentArr[8].slice(0,-2))){
   // console.log(sentArr[8]) returns fish
@@ -60,8 +60,9 @@ function translate(sentence) {
   for (let i = 0; i < sentArr.length; i++) {
     // console.log(sentArr[i][sentArr[i].length-1] === 's' || sentArr[i].slice(sentArr[i].length - 2, 0) === 'es')
 
+  // console.log(sentArr);
     if (
-      emojiArr.includes(sentArr[i].slice(0, -2)) ||
+      emojiArr.includes(sentArr[i].slice(0, -2)) || //catch es
       // emojiArr.includes(sentArr[i].slice(0,sentArr[i].length-2)) ||
       emojiArr.includes(sentArr[i].slice(0, sentArr[i].length - 1)) || //catch s
       emojiArr.includes(sentArr[i]) //dog
@@ -69,23 +70,39 @@ function translate(sentence) {
       // || emojiArr.includes(sentArr[i].slice(-1))  //just 's'
       // ||  emojiArr.includes(sentArr[i].slice(-2))//es
       //catch es
-    ) {
+    ) 
+    {
+      //fires / fire
       // console.log('sent arr ' + (sentArr[i][sentArr[i].length-1] === 's'))
       // console.log(`${emojiDict[sentArr[i].slice(0, sentArr[i].length-1)]}s`);
-      if (sentArr[i][sentArr[i].length - 1] === 's') {
-        // console.log('sent arr ' + (sentArr[i][sentArr[i].length-1] === 's'))
+      //sentArr[i].length-2 returns a num
+      // console.log((sentArr[i].slice(0,-1)))
+       if (sentArr[i].slice(-2) === 'es' 
+       && emojiArr.includes(sentArr[i].slice(0,-2)) ) { //possibly an and case to catch "fire"s, emojiArr.includes //if the word ends in e, && !emojiArr.includes(sentArr[i].length-1)
+        //
+        // console.log('catch es');
+        // console.log(sentArr)
+        //this is correct based on test cases above.
 
+        sentArr[i] = `${emojiDict[sentArr[i].slice(0, -2)]}es`;
+        // console.log(sentArr)
+
+      }
+      else if (sentArr[i][sentArr[i].length - 1] === 's') {
+        // console.log('sent arr ' + (sentArr[i][sentArr[i].length-1] === 's'))
         sentArr[i] = `${
           emojiDict[sentArr[i].slice(0, sentArr[i].length - 1)]
         }s`;
+        // console.log(sentArr)
+
         // sentArr[i] = `${emojiDict[sentArr[i]]}s`; //doesn't work, undefined
-      } else if (sentArr[i].slice(-2) === 'es') {
-        console.log('catch es');
-        //this is correct based on test cases above.
-        sentArr[i] = `${emojiDict[sentArr[i].slice(0, -2)]}es`;
-      } else {
-        sentArr[i] = emojiDict[sentArr[i]];
       }
+    //   if (sentArr[i] === emojiDict[sentArr[i]]){
+    //     sentArr[i] = emojiDict[sentArr[i]]
+    // }
+    else {
+        sentArr[i] = emojiDict[sentArr[i]]
+    }
     }
     //test case to check why the else if isn't working
     // if (sentArr[i].slice(-2) === 'es') {
@@ -94,26 +111,29 @@ function translate(sentence) {
     //   console.log(`${emojiDict[sentArr[8].slice(0, -2)]}es`);
     // }
   } //for
+  // console.log(sentArr)
   return (emojiSentence = sentArr.join(' '));
 }
 let testSent = 'dog likes pizza with fire';
 // console.log(translate(testSent));
 let testSent2 = 'dogs likes pizza with fires and brain or fishes';
+//  console.log(translate(testSent2));
+// console.log(translate('fishes fires'))
 const testSent2Arr = testSent2.split(' ');
-console.log(translate(testSent2));
-console.log(testSent2);
-console.log(testSent2Arr);
-console.log(emojiDict[testSent2Arr[2]]);
-console.log(emojiDict[testSent2Arr[8].split(0, -2)]);
+// console.log(translate(testSent2));
+// console.log(testSent2);
+// console.log(testSent2Arr);
+// console.log(emojiDict[testSent2Arr[2]]);
+// console.log(emojiDict[testSent2Arr[8].split(0, -2)]);
 
-for (let i = 0; i < testSent2Arr.length; i++) {
-  console.log(testSent2Arr[i]);
-  if (testSent2Arr[i].slice(-2) === 'es') {
-    console.log(testSent2Arr[i]);
-    console.log(testSent2Arr[8].slice(-2) === 'es');
-    console.log(`${emojiDict[testSent2Arr[8].slice(0, -2)]}es`);
-  }
-}
+// for (let i = 0; i < testSent2Arr.length; i++) {
+//   console.log(testSent2Arr[i]);
+//   if (testSent2Arr[i].slice(-2) === 'es') {
+//     console.log(testSent2Arr[i]);
+//     console.log(testSent2Arr[8].slice(-2) === 'es');
+//     console.log(`${emojiDict[testSent2Arr[8].slice(0, -2)]}es`);
+//   }
+// }
 
 //tests to get s and es
 let word = 'dogs';
